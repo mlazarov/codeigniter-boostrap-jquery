@@ -12,12 +12,11 @@ CREATE TABLE IF NOT EXISTS `users` (
   `email` varchar(255) NOT NULL,
   `passwd` char(32) NOT NULL,
   `language` int(1) NOT NULL DEFAULT '1',
-  `credits` int(11) NOT NULL,
-  `report` tinyint(1) unsigned NOT NULL DEFAULT '2',
-  `created` int(11) unsigned NOT NULL,
-  `created_ip` varchar(60) NOT NULL,
   `lastlogin` int(11) unsigned NOT NULL,
   `lastused` int(11) unsigned NOT NULL,
+  `created_ip` varchar(60) NOT NULL,
+  `created` int(11) unsigned NOT NULL,
+  `updated` int(11) unsigned NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `user_email` (`email`),
   KEY `lastused` (`lastused`)
@@ -46,9 +45,9 @@ CREATE TABLE IF NOT EXISTS `user_activates` (
 
 CREATE TABLE IF NOT EXISTS `user_autologins` (
   `user_id` mediumint(6) NOT NULL,
-  `user_code` varchar(255) NOT NULL,
+  `cookie_code` varchar(255) NOT NULL,
   `user_ip` varchar(15) NOT NULL,
-  PRIMARY KEY (`user_id`,`user_code`,`user_ip`)
+  PRIMARY KEY (`user_id`,`cookie_code`,`user_ip`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------

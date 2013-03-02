@@ -25,9 +25,9 @@ class My_Controller extends CI_Controller{
 		//$this->output->enable_profiler(TRUE);
 
 		if(!$this->session->userdata('id')){
-			$user_code = $this->input->cookie('remember');
-			if($user_code){
-				$this->db->where('user_code',$user_code);
+			$remember_me_cookie = $this->input->cookie('remember');
+			if($remember_me_cookie){
+				$this->db->where('cookie_code',$remember_me_cookie);
 				$this->db->where('user_ip',$_SERVER['REMOTE_ADDR']);
 				$autologin = $this->db->get('user_autologins',1)->row();
 				if($autologin->user_id){
@@ -39,7 +39,7 @@ class My_Controller extends CI_Controller{
 						// Extend cookie lifetime
 						$cookie = array(
 						    'name'   => 'remember',
-						    'value'  => $user_code,
+						    'value'  => $remember_me_cookie,
 						    'expire' => 7*86500, // 7 days
 						    'path'   => '/',
 						    'secure' => false
@@ -63,7 +63,6 @@ class My_Controller extends CI_Controller{
 
 		if($this->session->userdata('id')){
 			$this->db->set('lastused',time());
-			if(!$user->created_ip)$this->db->set('created_ip',$_SERVER['REMOTE_ADDR']);
 			$this->db->where('id',$this->session->userdata('id'));
 			$this->db->update('users');
 
@@ -72,10 +71,8 @@ class My_Controller extends CI_Controller{
 				$this->user = (object)$user;
 				$this->session->set_userdata((array)$user);
 			}
+			$this->user_id = $this->session->userdata('id');
 		}
-
-		$this->user_id = $this->session->userdata('id');
-
 	}
 
 	/**
