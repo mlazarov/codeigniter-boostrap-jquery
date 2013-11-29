@@ -15,9 +15,12 @@
  *     production
  *
  * NOTE: If you change these, also change the error_reporting() code below
- *
+ * NOTE2: auto Env. detection added. Default: production
  */
-define('ENVIRONMENT', 'development');
+if(isset($_SERVER['ENVIRONMENT']))
+	define('ENVIRONMENT', $_SERVER['ENVIRONMENT']);
+else
+	define('ENVIRONMENT','production');
 /*
  *---------------------------------------------------------------
  * ERROR REPORTING
